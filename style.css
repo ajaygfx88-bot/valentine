@@ -1,0 +1,40 @@
+body {
+  font-family: sans-serif;
+  background: pink;
+  text-align: center;
+}
+
+.center {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.fade {
+  animation: fadeIn 2s ease;
+}
+
+.delay {
+  animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+.game {
+  display:grid;
+  grid-template-columns:repeat(2,100px);
+  gap:10px;
+  justify-content:center;
+}
+
+.card {
+  width:100px;
+  height:100px;
+  background:red;
+  cursor:pointer;
+}
