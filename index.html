@@ -1,19 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>For You ❤️</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>My Valentine ❤️</title>
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  height:100vh;
+  overflow:hidden;
+}
+.section{
+  display:none;
+  height:100vh;
+  width:100%;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  animation: fade 1s ease;
+}
+.active{ display:flex; }
+
+button{
+  padding:12px 24px;
+  font-size:18px;
+  border:none;
+  border-radius:25px;
+  background:#ff3366;
+  color:white;
+  cursor:pointer;
+  margin-top:20px;
+}
+
+.game{
+  display:grid;
+  grid-template-columns:repeat(2,90px);
+  gap:15px;
+}
+.card{
+  width:90px;
+  height:90px;
+  background:#ff3366;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:scale(0.95);}
+  to{opacity:1; transform:scale(1);}
+}
+</style>
 </head>
-<body class="center pink">
 
-<h1 class="fade">Hey ❤️</h1>
-<h2 class="fade delay">I made something special for you…</h2>
+<body>
 
-<button onclick="goNext()">Start 💖</button>
+<!-- SCREEN 1 -->
+<div id="screen1" class="section active">
+  <h1>Hey ❤️</h1>
+  <h2>I made something special for you…</h2>
+  <button onclick="nextScreen('screen2')">Start 💖</button>
+</div>
+
+<!-- SCREEN 2 GAME -->
+<div id="screen2" class="section">
+  <h2>Match the Hearts 💘</h2>
+  <div class="game">
+    <div class="card" data="1"></div>
+    <div class="card" data="1"></div>
+    <div class="card" data="2"></div>
+    <div class="card" data="2"></div>
+  </div>
+</div>
+
+<!-- SCREEN 3 FINAL -->
+<div id="screen3" class="section">
+  <h1>Will you be my Valentine? 💖</h1>
+  <button onclick="yes()">YES 😍</button>
+</div>
 
 <script>
-function goNext(){
-  window.location.href = "game.html";
+function nextScreen(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+let first=null, lock=false, matches=0;
+document.querySelectorAll('.card').forEach(card=>{
+  card.onclick=()=>{
+    if(lock || card===first) return;
+    card.style.background="#fff";
+    if(!first){
+      first=card;
+    }else{
+      lock=true;
+      if(first.dataset.data===card.dataset.data){
+        matches++;
+        reset();
+        if(matches===2){
+          setTimeout(()=>nextScreen('screen3'),700);
+        }
+      }else{
+        setTimeout(()=>{
+          first.style.background="#ff3366";
+          card.style.background="#ff3366";
+          reset();
+        },600);
+      }
+    }
+  }
+});
+function reset(){ first=null; lock=false; }
+
+function yes(){
+  alert("I knew it 😘 I Love You ❤️");
 }
 </script>
 
